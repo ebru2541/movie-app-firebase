@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import avatar from "../assets/icons/avatar.png"
 const Navbar = () => {
-  const currentUser = {displayName: "Rose"}
+  const {currentUser}= useContext()
+  // const currentUser = {displayName: "Rose"}
   return (
     <div>
       <nav
