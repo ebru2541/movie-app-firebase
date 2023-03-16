@@ -25,19 +25,21 @@ export const AuthContext = createContext();
 //   };
 
 const AuthContextProvider = ({ children }) => {
+  const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(sessionStorage.getItem("user")) || false
   );
-  const navigate = useNavigate();
+
 
   useEffect(() => {
     userObserver();
   }, []);
 
+  //? regester sayfasında createuser a password ve name gönderecegiz
   const createUser = async (email, password, displayName) => {
     try {
       //? yeni bir kullanıcı oluşturmak için kullanılan firebase metodu
-      let userCredential = await createUserWithEmailAndPassword(
+     await createUserWithEmailAndPassword(
         auth,
         email,
         password
