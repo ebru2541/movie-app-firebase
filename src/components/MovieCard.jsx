@@ -1,76 +1,48 @@
-import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import GoogleIcon from "../assets/icons/GoogleIcon";
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { signIn, signUpProvider, forgotPassword } = useContext(AuthContext);
+const IMG_API = "https://image.tmdb.org/t/p/w1280";
+const defaultImage =
+  "https://images.unsplash.com/photo-1581905764498-f1b60bae941a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80";
+const MovieCard = ({ title, poster_path, overview, vote_average, id }) => {
+  const { currentUser } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    signIn(email, password);
+  const getVoteClass = (vote) => {
+    if (vote >= 8) {
+      return "green";
+    } else if (vote >= 6) {
+      return "orange";
+    } else {
+      return "red";
+    }
   };
-
   return (
-    <div className="overflow-hidden flex-1 h-screen justify-center items-center bg-[#23242a]">
-      <div className={`form-container mt-[10vh] w-[380px] h-[500px]`}>
-        <form onSubmit={handleSubmit}>
-          <h2 className="text-red-main text-2xl font-[500] text-center tracking-[0.1em] mb-3">
-            Sign In
-          </h2>
-          <div className="relative z-0 w-full mb-6 group">
-            <input
-              name="floating_email"
-              type="email"
-              className="peer"
-              placeholder=" "
-              required
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <label htmlFor="floating_email">Email</label>
-          </div>
-          <div className="relative z-0 w-full mb-6 group">
-            <input
-              name="floating_password"
-              type="password"
-              className="peer"
-              placeholder=" "
-              required
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <label htmlFor="floating_password">Password</label>
-          </div>
-          <div className="flex justify-between">
-            <span
-              onClick={() => forgotPassword(email)}
-              className="py-3 font-[0.75em] cursor-pointer decoration-none text-gray-500 hover:text-[#ff4b45]"
-            >
-              Forgot Password
-            </span>
-            <Link
-              className="py-3 font-[0.75em] cursor-pointer decoration-none text-gray-500 hover:text-[#ff4b45]"
-              to="/register"
-            >
-              Sign Up
-            </Link>
-          </div>
-          <button className="btn-danger" type="submit">
-            Login
-          </button>
-          <button
-            className="flex justify-between text-center btn-danger"
-            type="button"
-            onClick={() => signUpProvider()}
-          >
-            Continue with Google
-            <GoogleIcon color="currentColor" />
-          </button>
-        </form>
+    <div
+      className="movie"
+      id="container"
+      onClick={() => navigate("/details/" + id)}
+    >
+      <img
+        loading="lazy"
+        src={poster_path ? IMG_API + poster_path : defaultImage}
+        alt="movie-card"
+      />
+      <div className="flex align-baseline justify-between p-1 text-white">
+        <h5>{title}</h5>
+        {currentUser && (
+          <span className={`tag ${getVoteClass(vote_average)}`}>
+            {vote_average.toFixed(1)}
+          </span>
+        )}
+      </div>
+      <div className="movie-over">
+        <h2>Overview</h2>
+        <p>{overview}</p>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default MovieCard;
