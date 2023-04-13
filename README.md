@@ -14,7 +14,7 @@ Project aims to create a Movie App.
 ## Project Skeleton
 
 ```
-009 - Movie App (folder)
+ Movie App (folder)
 |
 |----readme.md         # Given to the students (Definition of the project)
 SOLUTION
