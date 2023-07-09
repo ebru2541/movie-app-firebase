@@ -44,7 +44,7 @@ Project aims to create a Movie App.
 
 ## Expected Outcome
 
-![Project Snapshot]([)](https://movie-firebase.netlify.app/)]
+![Project Snapshot][(https://movie-firebase.netlify.app/)]
 
 ## Objective
 
